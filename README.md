@@ -1,4 +1,8 @@
 # Cold Outreach Agent
+![GitHub](https://img.shields.io/badge/python-3.8%2B-blue)
+![GitHub](https://img.shields.io/badge/license-MIT-green)
+![GitHub](https://img.shields.io/badge/status-active-success)
+![GitHub](https://img.shields.io/github/last-commit/amani-k1/cold-outreach-agent)
 
 Agent de prospection froide B2B avec backend Flask, surveillance LinkedIn, enrichissement des prospects et génération d’emails personnalisés via LLM, avec un dashboard web.
 
