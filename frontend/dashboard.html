@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Cold Outreach Agent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .config-card {
+            grid-column: 1;
+        }
+
+        .results-card {
+            grid-column: 2;
+            grid-row: 1 / span 2;
+        }
+
+        .stats-card {
+            grid-column: 1;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-new {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .approval-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-approve {
+            background: #4caf50;
+            padding: 8px 15px;
+            font-size: 12px;
+        }
+
+        .btn-reject {
+            background: #f44336;
+            padding: 8px 15px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- En-tête -->
+        <div class="header">
+            <h1>🚀 Cold Outreach Agent</h1>
+            <p>Tableau de bord de prospection commerciale intelligente</p>
+        </div>
+
+        <!-- Dashboard principal -->
+        <div class="dashboard">
+            <!-- Carte Configuration -->
+            <div class="card config-card">
+                <h2>⚙️ Configuration ICP</h2>
+                
+                <div class="form-group">
+                    <label for="keywords">Mots-clés de recherche :</label>
+                    <textarea id="keywords" rows="3" placeholder="CEO, CTO, Startup, Directeur Marketing...">CEO, Startup, CTO</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="locations">Localisations :</label>
+                    <input type="text" id="locations" placeholder="Paris, Lyon, Remote..." value="Paris, Lyon">
+                </div>
+
+                <div class="form-group">
+                    <label for="industries">Industries :</label>
+                    <input type="text" id="industries" placeholder="Technologie, SaaS, Finance...">
+                </div>
+
+                <button class="btn" onclick="searchProspects()">
+                    🔍 Lancer la recherche
+                </button>
+            </div>
+
+            <!-- Carte Résultats -->
+            <div class="card results-card">
+                <h2>👥 Prospects Détectés</h2>
+                <div id="resultsInfo"></div>
+                <div id="results">
+                    <div class="loading" id="loading">
+                        ⏳ Cliquez sur "Lancer la recherche" pour commencer...
+                    </div>
+                    <table id="prospectsTable" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Poste</th>
+                                <th>Entreprise</th>
+                                <th>Localisation</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Carte Statistiques -->
+            <div class="card stats-card">
+                <h2>📊 Statistiques</h2>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalProspects">0</div>
+                        <div class="stat-label">Prospects total</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="pendingApprovals">0</div>
+                        <div class="stat-label">En attente</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="emailsSent">0</div>
+                        <div class="stat-label">Emails envoyés</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="successRate">0%</div>
+                        <div class="stat-label">Taux de réussite</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let prospects = [];
+
+        // Fonction principale de recherche
+        async function searchProspects() {
+            const keywords = document.getElementById('keywords').value;
+            const locations = document.getElementById('locations').value;
+            
+            showLoading('🔍 Recherche en cours...');
+
+            try {
+                const response = await fetch('http://localhost:5000/api/search-prospects', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        keywords: keywords.split(',').map(k => k.trim()),
+                        locations: locations.split(',').map(l => l.trim())
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    prospects = data.prospects;
+                    displayResults(prospects);
+                    updateStats();
+                    showSuccess(`✅ ${data.count} prospects trouvés !`);
+                } else {
+                    showError('❌ Erreur API: ' + data.message);
+                }
+
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('❌ Impossible de contacter le serveur: ' + error.message);
+            }
+        }
+
+        // Afficher les résultats dans le tableau
+        function displayResults(prospects) {
+            const table = document.getElementById('prospectsTable');
+            const tableBody = document.getElementById('tableBody');
+            const loading = document.getElementById('loading');
+
+            loading.style.display = 'none';
+            
+            if (prospects.length === 0) {
+                table.style.display = 'none';
+                showError('Aucun prospect trouvé avec ces critères');
+                return;
+            }
+
+            tableBody.innerHTML = '';
+            prospects.forEach(prospect => {
+                const row = tableBody.insertRow();
+                row.setAttribute('data-prospect-id', prospect.id);
+                row.innerHTML = `
+                    <td><strong>${prospect.name}</strong></td>
+                    <td>${prospect.title}</td>
+                    <td>${prospect.company}</td>
+                    <td>${prospect.location}</td>
+                    <td>${prospect.email}</td>
+                    <td>
+                        <div class="approval-buttons">
+                            <button class="btn btn-approve" onclick="approveProspect(${prospect.id})">✓ Approuver</button>
+                            <button class="btn btn-reject" onclick="rejectProspect(${prospect.id})">✗ Rejeter</button>
+                        </div>
+                    </td>
+                `;
+            });
+
+            table.style.display = 'table';
+        }
+
+        // Fonctions d'approbation améliorées
+        async function approveProspect(prospectId) {
+            try {
+                const response = await fetch('http://localhost:5000/api/approve-prospect', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        prospect_id: prospectId,
+                        decision: 'approved'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showSuccess(`✅ Prospect approuvé ! Prêt pour l'envoi d'email.`);
+                    updateStats();
+                    // Masquer la ligne approuvée
+                    const row = document.querySelector(`tr[data-prospect-id="${prospectId}"]`);
+                    if (row) {
+                        row.style.opacity = '0.5';
+                        row.style.backgroundColor = '#e8f5e8';
+                    }
+                }
+            } catch (error) {
+                showError('❌ Erreur approbation: ' + error.message);
+            }
+        }
+
+        async function rejectProspect(prospectId) {
+            try {
+                const response = await fetch('http://localhost:5000/api/approve-prospect', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        prospect_id: prospectId,
+                        decision: 'rejected'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showSuccess(`❌ Prospect rejeté.`);
+                    updateStats();
+                    // Masquer la ligne rejetée
+                    const row = document.querySelector(`tr[data-prospect-id="${prospectId}"]`);
+                    if (row) {
+                        row.remove();
+                    }
+                }
+            } catch (error) {
+                showError('❌ Erreur rejet: ' + error.message);
+            }
+        }
+
+        // Mettre à jour les statistiques en temps réel
+        async function updateStats() {
+            try {
+                const response = await fetch('http://localhost:5000/api/dashboard-stats');
+                const stats = await response.json();
+                
+                document.getElementById('totalProspects').textContent = stats.total_prospects;
+                document.getElementById('pendingApprovals').textContent = stats.total_approvals;
+                document.getElementById('emailsSent').textContent = stats.approved_count;
+                document.getElementById('successRate').textContent = stats.approval_rate;
+            } catch (error) {
+                console.error('Erreur stats:', error);
+                // Stats de secours si l'API n'est pas disponible
+                document.getElementById('totalProspects').textContent = prospects.length;
+                document.getElementById('pendingApprovals').textContent = prospects.length;
+            }
+        }
+
+        // Fonctions d'affichage
+        function showLoading(message) {
+            document.getElementById('loading').innerHTML = `⏳ ${message}`;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('prospectsTable').style.display = 'none';
+            clearMessages();
+        }
+
+        function showSuccess(message) {
+            clearMessages();
+            const div = document.createElement('div');
+            div.className = 'success';
+            div.textContent = message;
+            document.getElementById('resultsInfo').appendChild(div);
+        }
+
+        function showError(message) {
+            clearMessages();
+            const div = document.createElement('div');
+            div.className = 'error';
+            div.textContent = message;
+            document.getElementById('resultsInfo').appendChild(div);
+        }
+
+        function clearMessages() {
+            document.getElementById('resultsInfo').innerHTML = '';
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Cold Outreach Agent Dashboard initialisé');
+            updateStats();
+        });
+    </script>
+</body>
+</html>

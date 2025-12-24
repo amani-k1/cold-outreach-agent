@@ -1,0 +1,12 @@
+# ✅ OUTILS MIT OFFICIELS
+linkedin-api==2.3.1                 # https://github.com/tomquirk/linkedin-api
+PyHunter==1.7                        # https://github.com/VonStruddle/PyHunter
+yagmail==0.15.293                    # https://github.com/kootenpv/yagmail
+
+# ✅ DÉPENDANCES ESSENTIELLES
+flask==2.3.3
+flask-cors==4.0.0
+python-dotenv==1.0.0
+requests==2.32.5
+beautifulsoup4==4.12.3
+# pandas retiré car incompatible Python 3.13

@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Agent Autonome - Cold Outreach</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .config-card {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .monitoring-card {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .stats-card {
+            grid-column: 3;
+            grid-row: 1;
+        }
+
+        .logs-card {
+            grid-column: 1 / span 2;
+            grid-row: 2;
+        }
+
+        .actions-card {
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        .prospects-card {
+            grid-column: 1 / span 3;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+        }
+
+        .btn-approve {
+            background: #4caf50;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-reject {
+            background: #f44336;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-send {
+            background: #2196F3;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .monitoring-status {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .status-active {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 2px solid #4CAF50;
+        }
+
+        .status-inactive {
+            background: #ffebee;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+
+        .logs-container {
+            max-height: 300px;
+            overflow-y: auto;
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 3px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .approval-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .email-preview {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .email-subject {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .email-body {
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- En-tête -->
+        <div class="header">
+            <h1>🤖 Agent Autonome - Cold Outreach</h1>
+            <p>Surveillance LinkedIn intelligente • Enrichissement automatique • Emails IA personnalisés</p>
+        </div>
+
+        <!-- Dashboard principal -->
+        <div class="dashboard">
+            <!-- Carte Configuration ICP -->
+            <div class="card config-card">
+                <h2>⚙️ Configuration ICP</h2>
+                
+                <div class="form-group">
+                    <label for="keywords">Mots-clés de recherche :</label>
+                    <textarea id="keywords" rows="2" placeholder="CEO, CTO, Startup, Directeur Marketing...">CEO, CTO, Startup</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="locations">Localisations :</label>
+                    <input type="text" id="locations" placeholder="Paris, Lyon, Remote..." value="Paris, Lyon">
+                </div>
+
+                <div class="form-group">
+                    <label for="industries">Industries :</label>
+                    <input type="text" id="industries" placeholder="Technologie, SaaS, Finance..." value="Technologie, SaaS">
+                </div>
+
+                <div class="form-group">
+                    <label for="companyName">Nom de votre entreprise :</label>
+                    <input type="text" id="companyName" placeholder="Votre entreprise..." value="TechGrowth Solutions">
+                </div>
+
+                <div class="form-group">
+                    <label for="valueProposition">Proposition de valeur :</label>
+                    <textarea id="valueProposition" rows="2" placeholder="Ce que vous offrez...">solutions IA innovantes pour la croissance business</textarea>
+                </div>
+
+                <button class="btn" onclick="saveICPConfig()">
+                    💾 Sauvegarder la configuration
+                </button>
+            </div>
+
+            <!-- Carte Surveillance -->
+            <div class="card monitoring-card">
+                <h2>🔍 Surveillance LinkedIn</h2>
+                
+                <div id="monitoringStatus" class="monitoring-status status-inactive">
+                    🔴 Surveillance inactive
+                </div>
+
+                <div class="form-group">
+                    <label for="monitoringInterval">Intervalle de surveillance (minutes) :</label>
+                    <input type="number" id="monitoringInterval" value="60" min="15">
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-start" onclick="startMonitoring()">
+                        🚀 Démarrer la surveillance
+                    </button>
+                    <button class="btn btn-stop" onclick="stopMonitoring()">
+                        🛑 Arrêter la surveillance
+                    </button>
+                </div>
+
+                <button class="btn" onclick="searchProspects()" style="margin-top: 15px;">
+                    🔍 Recherche manuelle
+                </button>
+            </div>
+
+            <!-- Carte Statistiques -->
+            <div class="card stats-card">
+                <h2>📊 Statistiques en temps réel</h2>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalProspects">0</div>
+                        <div class="stat-label">Prospects total</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="pendingApprovals">0</div>
+                        <div class="stat-label">En attente</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="emailsSent">0</div>
+                        <div class="stat-label">Emails envoyés</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="successRate">0%</div>
+                        <div class="stat-label">Taux d'approbation</div>
+
+                         
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn" onclick="updateStats()">
+                        🔄 Actualiser les stats
+                    </button>
+                </div>
+            </div>
+
+            <!-- Carte Logs -->
+            <div class="card logs-card">
+                <h2>📝 Logs de l'agent</h2>
+                <div class="logs-container" id="logsContainer">
+                    <div class="loading">Chargement des logs...</div>
+                </div>
+                <button class="btn" onclick="refreshLogs()" style="margin-top: 10px;">
+                    🔄 Actualiser les logs
+                </button>
+            </div>
+
+            <!-- Carte Actions Rapides -->
+            <div class="card actions-card">
+                <h2>⚡ Actions rapides</h2>
+                
+                <button class="btn" onclick="testAgentHealth()">
+                    ❤️ Tester santé agent
+                </button>
+                
+                <button class="btn" onclick="clearAllData()">
+                    🗑️ Effacer données
+                </button>
+                
+                <button class="btn" onclick="exportData()">
+                    📤 Exporter données
+                </button>
+
+                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                    <h3 style="margin-bottom: 10px;">🔄 Auto-refresh</h3>
+                    <label>
+                        <input type="checkbox" id="autoRefresh" onchange="toggleAutoRefresh()">
+                        Actualisation automatique (10s)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte Prospects -->
+        <div class="card prospects-card">
+            <h2>👥 Prospects Détectés <span id="prospectsCount">(0)</span></h2>
+            <div id="resultsInfo"></div>
+            <div id="results">
+                <div class="loading" id="loading">
+                    ⏳ Aucune recherche effectuée. Cliquez sur "Recherche manuelle" ou démarrez la surveillance.
+                </div>
+                <table id="prospectsTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Poste</th>
+                            <th>Entreprise</th>
+                            <th>Localisation</th>
+                            <th>Email</th>
+                            <th>Score</th>
+                            <th>Détecté le</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        let autoRefreshInterval = null;
+
+        // Configuration ICP
+        async function saveICPConfig() {
+            const config = {
+                keywords: document.getElementById('keywords').value.split(',').map(k => k.trim()),
+                locations: document.getElementById('locations').value.split(',').map(l => l.trim()),
+                industries: document.getElementById('industries').value.split(',').map(i => i.trim()),
+                company_context: {
+                    name: document.getElementById('companyName').value,
+                    industry: document.getElementById('industries').value.split(',')[0]?.trim() || 'Technologie',
+                    value_proposition: document.getElementById('valueProposition').value
+                }
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/config/icp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+                
+                const data = await response.json();
+                showMessage('✅ Configuration sauvegardée avec succès!', 'success');
+                console.log('Configuration:', data);
+            } catch (error) {
+                showMessage('❌ Erreur sauvegarde configuration: ' + error.message, 'error');
+            }
+        }
+
+        // Surveillance
+        async function startMonitoring() {
+            const interval = document.getElementById('monitoringInterval').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/monitoring/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ interval_minutes: parseInt(interval) })
+                });
+                
+                const data = await response.json();
+                showMessage(data.message, data.status === 'success' ? 'success' : 'error');
+                updateMonitoringStatus();
+            } catch (error) {
+                showMessage('❌ Erreur démarrage surveillance: ' + error.message, 'error');
+            }
+        }
+
+        async function stopMonitoring() {
+            try {
+                const response = await fetch(`${API_BASE}/monitoring/stop`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const data = await response.json();
+                showMessage(data.message, 'success');
+                updateMonitoringStatus();
+            } catch (error) {
+                showMessage('❌ Erreur arrêt surveillance: ' + error.message, 'error');
+            }
+        }
+
+        async function updateMonitoringStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/monitoring/status`);
+                const data = await response.json();
+                
+                const statusElement = document.getElementById('monitoringStatus');
+                if (data.is_monitoring) {
+                    statusElement.className = 'monitoring-status status-active';
+                    statusElement.innerHTML = '🟢 Surveillance active';
+                } else {
+                    statusElement.className = 'monitoring-status status-inactive';
+                    statusElement.innerHTML = '🔴 Surveillance inactive';
+                }
+            } catch (error) {
+                console.error('Erreur statut surveillance:', error);
+            }
+        }
+
+        // Recherche prospects
+        async function searchProspects() {
+            const keywords = document.getElementById('keywords').value.split(',').map(k => k.trim());
+            const locations = document.getElementById('locations').value.split(',').map(l => l.trim());
+            
+            showLoading('🔍 Recherche en cours...');
+
+            try {
+                const response = await fetch(`${API_BASE}/search-prospects`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ keywords, locations })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayResults(data.prospects);
+                    showMessage(`✅ ${data.count} prospects trouvés!`, 'success');
+                } else {
+                    showMessage('❌ Erreur recherche: ' + data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Erreur recherche: ' + error.message, 'error');
+            }
+        }
+
+        // Affichage résultats
+        function displayResults(prospects) {
+            const table = document.getElementById('prospectsTable');
+            const tableBody = document.getElementById('tableBody');
+            const loading = document.getElementById('loading');
+            const countElement = document.getElementById('prospectsCount');
+
+            loading.style.display = 'none';
+            countElement.textContent = `(${prospects.length})`;
+            
+            if (prospects.length === 0) {
+                table.style.display = 'none';
+                showMessage('Aucun prospect trouvé avec ces critères', 'error');
+                return;
+            }
+
+            tableBody.innerHTML = '';
+            prospects.forEach(prospect => {
+                const row = tableBody.insertRow();
+                row.setAttribute('data-prospect-id', prospect.id);
+                
+                const detectedDate = new Date(prospect.detected_at || new Date()).toLocaleDateString();
+                
+                row.innerHTML = `
+                    <td><strong>${prospect.name}</strong></td>
+                    <td>${prospect.title}</td>
+                    <td>${prospect.company}</td>
+                    <td>${prospect.location}</td>
+                    <td>${prospect.email || 'Non trouvé'}</td>
+                    <td>${(prospect.enrichment_score * 100)?.toFixed(0) || '0'}%</td>
+                    <td>${detectedDate}</td>
+                    <td>
+                        <div class="approval-buttons">
+                            <button class="btn btn-approve" onclick="approveProspect('${prospect.id}')">✓ Approuver</button>
+                            <button class="btn btn-reject" onclick="rejectProspect('${prospect.id}')">✗ Rejeter</button>
+                        </div>
+                    </td>
+                `;
+            });
+
+            table.style.display = 'table';
+        }
+
+        // Approbation prospects
+        async function approveProspect(prospectId) {
+            try {
+                const response = await fetch(`${API_BASE}/approve-prospect`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prospect_id: prospectId,
+                        decision: 'approved'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showMessage('✅ Prospect approuvé! Email composé.', 'success');
+                    
+                    // Afficher l'email généré
+                    if (data.approval.email_content) {
+                        showEmailPreview(data.approval.email_content, prospectId);
+                    }
+                    
+                    updateStats();
+                    
+                    // Marquer la ligne comme approuvée
+                    const row = document.querySelector(`tr[data-prospect-id="${prospectId}"]`);
+                    if (row) {
+                        row.style.opacity = '0.6';
+                        row.style.backgroundColor = '#e8f5e8';
+                    }
+                }
+            } catch (error) {
+                showMessage('❌ Erreur approbation: ' + error.message, 'error');
+            }
+        }
+
+        async function rejectProspect(prospectId) {
+            try {
+                const response = await fetch(`${API_BASE}/approve-prospect`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prospect_id: prospectId,
+                        decision: 'rejected'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showMessage('❌ Prospect rejeté.', 'success');
+                    updateStats();
+                    
+                    // Supprimer la ligne
+                    const row = document.querySelector(`tr[data-prospect-id="${prospectId}"]`);
+                    if (row) {
+                        row.remove();
+                    }
+                }
+            } catch (error) {
+                showMessage('❌ Erreur rejet: ' + error.message, 'error');
+            }
+        }
+
+        // Aperçu email
+        function showEmailPreview(emailContent, prospectId) {
+            const preview = document.createElement('div');
+            preview.className = 'email-preview';
+            preview.innerHTML = `
+                <div class="email-subject">📧 ${emailContent.subject}</div>
+                <div class="email-body">${emailContent.body}</div>
+                <div style="margin-top: 10px;">
+                    <button class="btn btn-send" onclick="sendEmail('${prospectId}', ${JSON.stringify(emailContent).replace(/'/g, "\\'")})">
+                        📤 Envoyer cet email
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('resultsInfo').appendChild(preview);
+        }
+
+        // Envoi email
+        async function sendEmail(prospectId, emailContent) {
+            try {
+                const response = await fetch(`${API_BASE}/send-email`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prospect_id: prospectId,
+                        email_content: emailContent
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showMessage('✅ Email envoyé avec succès!', 'success');
+                    updateStats();
+                }
+            } catch (error) {
+                showMessage('❌ Erreur envoi email: ' + error.message, 'error');
+            }
+        }
+
+        // Statistiques
+        async function updateStats() {
+            try {
+                const response = await fetch(`${API_BASE}/dashboard-stats`);
+                const stats = await response.json();
+                
+                document.getElementById('totalProspects').textContent = stats.total_prospects;
+                document.getElementById('pendingApprovals').textContent = stats.total_approvals;
+                document.getElementById('emailsSent').textContent = stats.emails_sent;
+                document.getElementById('successRate').textContent = stats.approval_rate;
+            } catch (error) {
+                console.error('Erreur stats:', error);
+            }
+        }
+
+        // Logs
+        async function refreshLogs() {
+            try {
+                const response = await fetch(`${API_BASE}/monitoring/status`);
+                const data = await response.json();
+                
+                const logsContainer = document.getElementById('logsContainer');
+                logsContainer.innerHTML = '';
+                
+                if (data.logs && data.logs.length > 0) {
+                    data.logs.forEach(log => {
+                        const logEntry = document.createElement('div');
+                        logEntry.className = 'log-entry';
+                        logEntry.textContent = log;
+                        logsContainer.appendChild(logEntry);
+                    });
+                    
+                    // Scroll vers le bas
+                    logsContainer.scrollTop = logsContainer.scrollHeight;
+                } else {
+                    logsContainer.innerHTML = '<div class="loading">Aucun log disponible</div>';
+                }
+            } catch (error) {
+                console.error('Erreur logs:', error);
+            }
+        }
+
+        // Actions rapides
+        async function testAgentHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                showMessage(`✅ Agent en bonne santé - Version ${data.version}`, 'success');
+            } catch (error) {
+                showMessage('❌ Agent inaccessible: ' + error.message, 'error');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('Êtes-vous sûr de vouloir effacer toutes les données ?')) {
+                showMessage('🗑️ Données effacées (simulation)', 'success');
+                // Ici tu implémenteras la vraie suppression plus tard
+            }
+        }
+
+        function exportData() {
+            showMessage('📤 Export des données (simulation)', 'success');
+            // Ici tu implémenteras l'export plus tard
+        }
+
+        // Auto-refresh
+        function toggleAutoRefresh() {
+            const autoRefresh = document.getElementById('autoRefresh').checked;
+            
+            if (autoRefresh) {
+                autoRefreshInterval = setInterval(() => {
+                    updateStats();
+                    refreshLogs();
+                    updateMonitoringStatus();
+                }, 10000); // 10 secondes
+                showMessage('🔄 Actualisation automatique activée', 'success');
+            } else {
+                if (autoRefreshInterval) {
+                    clearInterval(autoRefreshInterval);
+                    autoRefreshInterval = null;
+                }
+                showMessage('⏸️ Actualisation automatique désactivée', 'success');
+            }
+        }
+
+        // Utilitaires
+        function showLoading(message) {
+            document.getElementById('loading').innerHTML = `⏳ ${message}`;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('prospectsTable').style.display = 'none';
+            clearMessages();
+        }
+
+        function showMessage(message, type) {
+            clearMessages();
+            const div = document.createElement('div');
+            div.className = type === 'success' ? 'success' : 'error';
+            div.textContent = message;
+            document.getElementById('resultsInfo').appendChild(div);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (div.parentNode) {
+                    div.parentNode.removeChild(div);
+                }
+            }, 5000);
+        }
+
+        function clearMessages() {
+            document.getElementById('resultsInfo').innerHTML = '';
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Agent Autonome Dashboard initialisé');
+            updateStats();
+            refreshLogs();
+            updateMonitoringStatus();
+            
+            // Charger les prospects existants
+            loadExistingProspects();
+        });
+
+        async function loadExistingProspects() {
+            try {
+                const response = await fetch(`${API_BASE}/prospects`);
+                const data = await response.json();
+                
+                if (data.prospects && data.prospects.length > 0) {
+                    displayResults(data.prospects);
+                }
+            } catch (error) {
+                console.error('Erreur chargement prospects:', error);
+            }
+        }
+    </script>
+</body>
+</html>
